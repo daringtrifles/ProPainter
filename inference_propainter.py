@@ -7,7 +7,7 @@ import numpy as np
 import scipy.ndimage
 from PIL import Image
 from tqdm import tqdm
-
+from natsort import natsorted
 import torch
 import torchvision
 
@@ -56,7 +56,7 @@ def read_frame_from_videos(frame_root):
     else:
         video_name = os.path.basename(frame_root)
         frames = []
-        fr_lst = sorted(os.listdir(frame_root))
+        fr_lst = natsorted(os.listdir(frame_root))
         for fr in fr_lst:
             frame = cv2.imread(os.path.join(frame_root, fr))
             frame = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
@@ -82,7 +82,7 @@ def read_mask(mpath, length, size, flow_mask_dilates=8, mask_dilates=5):
     if mpath.endswith(('jpg', 'jpeg', 'png', 'JPG', 'JPEG', 'PNG')): # input single img path
        masks_img = [Image.open(mpath)]
     else:  
-        mnames = sorted(os.listdir(mpath))
+        mnames = natsorted(os.listdir(mpath))
         for mp in mnames:
             masks_img.append(Image.open(os.path.join(mpath, mp)))
           
